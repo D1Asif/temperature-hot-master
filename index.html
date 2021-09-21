@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="location-name" type="text" class="form-control"
+                    placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="search-btn" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="weather-icon" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="city-display">Dhaka</h1>
+            <h3><span id="temperature">38.06</span>&deg;C</h3>
+            <h1 id="weather" class="lead">Clouds</h1>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("search-btn").addEventListener('click', function(){
+            const locationName = document.getElementById("location-name").value;
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=b78b188db207883a593900cd4aaeee2d`)
+                .then((response) => response.json())
+                .then((data) => {
+                    document.getElementById("city-display").innerText = data.name;
+                    const temperature = parseFloat(data.main.temp) - 273;
+                    const bhodroTemperature = temperature.toFixed(2);
+                    document.getElementById("temperature").innerText = bhodroTemperature;
+                    const iconId = data.weather.icon;
+                    document.getElementById("weather").innerText = data.weather[0].main;
+                    const icon = data.weather[0].icon;
+                    document.getElementById("weather-icon").src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                });
+        })
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=Dhaka&appid=b78b188db207883a593900cd4aaeee2d`)
+                .then((response) => response.json())
+                .then((data) => {
+                    document.getElementById("city-display").innerText = data.name;
+                    const temperature = parseFloat(data.main.temp) - 273;
+                    const bhodroTemperature = temperature.toFixed(2);
+                    document.getElementById("temperature").innerText = bhodroTemperature;
+                    const iconId = data.weather.icon;
+                    document.getElementById("weather").innerText = data.weather[0].main;
+                    const icon = data.weather[0].icon;
+                    document.getElementById("weather-icon").src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                });
+    </script>
+
+</body>
+
+</html>
